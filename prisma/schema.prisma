@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model Item {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  location     String
+  creationTime DateTime @default(now())
+  owner        String
+}
+
+
+type UploadCycleArchiveProfiles {
+  id                 String   @map("_id") @db.ObjectId
+  absolutePaths      String[]
+  archiveProfile     String?
+  archiveProfilePath String?
+  count              Int?
+  titles             String[]
+}
+
+model ArchiveItem {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  acct                 String
+  allDownloadsLinkPage String
+  createdAt            DateTime @db.Date
+  date                 String
+  description          String
+  emailUser            String
+  identifier           String
+  link                 String
+  mediaType            String
+  originalTitle        String
+  pageCount            String
+  pdfDownloadLink      String
+  size                 String
+  sizeFormatted        String
+  source               String
+  subject              String
+  titleArchive         String
+  type                 String
+  updatedAt            DateTime @db.Date
+
+  @@unique([acct, identifier], map: "acct_1_identifier_1")
+}
+
+model Daily_Cat_Work_Report {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Daily_QA_Work_Report {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Daily_Work_Report {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model File_Move_Tracker {
+  id                             String   @id @default(auto()) @map("_id") @db.ObjectId
+  v                              Int      @map("__v")
+  createdAt                      DateTime @db.Date
+  dest                           String
+  destFilesAfter                 Int?
+  destFilesBefore                Int?
+  destFolderOrProfile            String
+  errorList                      String[]
+  errors                         String[]
+  fileCollisionsResolvedByRename String[]
+  filesMoved                     String[]
+  msg                            String
+  src                            String
+  srcPdfsAfter                   Int?
+  srcPdfsBefore                  Int?
+  success                        Boolean
+  updatedAt                      DateTime @db.Date
+}
+
+model GDriveItem {
+  id                  String @id @default(auto()) @map("_id") @db.ObjectId
+  author              String
+  commentaries        String
+  commentator         String
+  createdTime         String
+  edition             String
+  editor              String
+  folderName          String
+  gDriveLink          String @unique(map: "gDriveLink_1")
+  identifier          String @unique(map: "identifier_1")
+  identifierTruncFile String
+  isbn                String
+  languages           String
+  pageCount           Int
+  placePub            String
+  publisher           String
+  remarks             String
+  script              String
+  serialNo            String
+  series              String
+  sizeInBytes         String
+  sizeWithUnits       String
+  source              String
+  subTitle            String
+  subect              String
+  textType            String
+  thumbnail           String
+  titleGDrive         String
+  titleOriginalScript String
+  titleinEnglish      String
+  truncFileLink       String
+  yearPub             String
+
+  @@unique([source, gDriveLink], map: "source_1_gDriveLink_1")
+}
+
+model GDrive_Upload_Work_Report {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Items_Queued {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  v                     Int      @map("__v")
+  archiveProfile        String
+  createdAt             DateTime @db.Date
+  csvName               String
+  datetimeUploadStarted DateTime @db.Date
+  localPath             String
+  title                 String
+  updatedAt             DateTime @db.Date
+  uploadCycleId         String
+  uploadLink            String
+}
+
+model Items_Ushered {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  v                     Int      @map("__v")
+  archiveItemId         String
+  archiveProfile        String
+  createdAt             DateTime @db.Date
+  csvName               String
+  datetimeUploadStarted DateTime @db.Date
+  localPath             String
+  title                 String
+  updatedAt             DateTime @db.Date
+  uploadCycleId         String
+  uploadFlag            Boolean?
+  uploadLink            String
+}
+
+model Pdf_Renamer {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model ScanningCenter {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Upload_Cycle {
+  id                    String                       @id @default(auto()) @map("_id") @db.ObjectId
+  v                     Int                          @map("__v")
+  allUploadVerified     Boolean?
+  archiveProfiles       UploadCycleArchiveProfiles[]
+  createdAt             DateTime                     @db.Date
+  datetimeUploadStarted DateTime                     @db.Date
+  mode                  String?
+  moveToFreeze          Boolean?
+  updatedAt             DateTime                     @db.Date
+  uploadCount           Int
+  uploadCycleId         String
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
+  createdAt DateTime @db.Date
+  password  String
+  role      String
+  updatedAt DateTime @db.Date
+  username  String
+}
